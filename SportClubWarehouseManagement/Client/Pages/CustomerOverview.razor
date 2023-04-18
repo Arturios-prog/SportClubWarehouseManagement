@@ -1,0 +1,37 @@
+﻿@page "/customeroverview"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@attribute [Authorize]
+
+<PageTitle>Customer Overview</PageTitle>
+<div>
+	<div id="margin-background"></div>
+	<div class="row justify-content-md-center background-meteor">
+		<div class="margin-top-50"></div>
+		<div class="col-10">
+			<RadzenDataGrid @ref="dataGrid" AllowGrouping="true" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" PageSize="10" AllowPaging="true" AllowSorting="true"
+							Data="customers" TItem="Customer" ColumnWidth="160px" LogicalFilterOperator="LogicalFilterOperator.Or" Render="@OnRender"
+							HideGroupedColumn="true" GroupRowRender="OnGroupRowRender" GroupRowExpand="OnGroupRowExpand" GroupRowCollapse="OnGroupRowCollapse" Group="@OnGroup">
+				<Columns>
+					<RadzenDataGridColumn TItem="Customer" Property="CustomerId" Filterable="false" Title="ID" Frozen="true" Width="70px" TextAlign="TextAlign.Center" />
+					<RadzenDataGridColumn TItem="Customer" Property="FirstName" Title="First Name" />
+					<RadzenDataGridColumn TItem="Customer" Property="SecondName" Title="Last Name" />
+					<RadzenDataGridColumn TItem="Customer" Property="Age" Title="Age" Width="200px" />
+					<RadzenDataGridColumn TItem="Customer" Property="Gender" Title="Gender" />
+					<RadzenDataGridColumn TItem="Customer" Property="CustomerId" Title="Customer Info" MinWidth="440px">
+
+						<Template Context="customer">
+							<RadzenButton ButtonStyle="ButtonStyle.Info" Icon="info" Class="m-1" Click=@(() => OpenCustomerInfo(customer.CustomerId)) Text="Info"></RadzenButton>
+							<RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="edit" Class="m-1" Click=@(() => OpenCustomerEdit(customer.CustomerId)) Text="Edit"></RadzenButton>
+							<RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Class="m-1" Click=@(() => DeleteCustomer(customer.CustomerId)) Text="Delete"></RadzenButton>
+						</Template>
+					</RadzenDataGridColumn>
+				</Columns>
+			</RadzenDataGrid>
+		</div>
+		<div class="col-1">
+			<button class="btn btn-primary add-btn" @onclick=@(()=> AddNewCustomer())><i class="uil uil-user-plus" style="font-size: 50px;"></i></button>
+		</div>
+		<div class="margin-bottom-100"></div>
+	</div>
+</div>

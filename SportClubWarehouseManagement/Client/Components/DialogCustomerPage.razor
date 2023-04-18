@@ -1,0 +1,54 @@
+﻿<div class="container">
+	<div class="row my-5">
+		<div class="col-lg-1"></div>
+		<div class="col-lg-10">
+			<RadzenCard class="m-3 width-200">
+				<h3 class="h5">Main Information</h3>
+				<div class="d-flex flex-row">
+					@*<RadzenImage Path="@customer.Employee?.Photo" Class="rounded-circle float-left mr-3" Style="width: 100px; height: 100px;" />*@
+					<div>
+						<div>Customer</div>
+						<b>@(Customer.FirstName + " " + Customer.SecondName)</b>
+						<div class="mt-3">Email</div>
+						<b>@Customer.Email</b>
+					</div>
+				</div>
+			</RadzenCard>
+			<RadzenCard class="m-3 width-200">
+				<h3 class="h5">Additional Information</h3>
+				<div class="row">
+					<div class="col-md-4">
+						<div>Address</div>
+						<b>@(Customer.Address)</b>
+						<div class="mt-3">Subscribe</div>
+						<b>@Customer.SubscribeStatus</b>
+
+					</div>
+					<div class="col-md-8">
+						<div>Registration Date</div>
+						<b>@(Customer.RegistrationDate)</b>
+						<div class="mt-3">Gender</div>
+						<b>@Customer.Gender.ToString()</b>
+					</div>
+				</div>
+			</RadzenCard>
+			<RadzenCard class="m-3 width-200">
+				<h3 class="h5">Customer's Sport Goods</h3>
+				<RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" PageSize="10" AllowPaging="true" AllowSorting="true"
+								Data="@Customer.CustomerSportGoods" TItem="@CustomerSportGood">
+					<Columns>
+						<RadzenDataGridColumn TItem="CustomerSportGood" Property="Id" Filterable="false" Title="ID" Frozen="true" Width="70px" TextAlign="TextAlign.Center" />
+						<RadzenDataGridColumn TItem="CustomerSportGood" Property="SportGoodName" Filterable="true" Title="Sport Good's Name" TextAlign="TextAlign.Center" />
+						<RadzenDataGridColumn TItem="CustomerSportGood" Property="Quantity" Filterable="true" Title="Quantity" TextAlign="TextAlign.Center" />
+						<RadzenDataGridColumn TItem="CustomerSportGood" Property="CustomerId" Filterable="false" Title="Info" Width="70px" TextAlign="TextAlign.Center" >
+							<Template Context="customerSportGood">
+								<RadzenButton ButtonStyle="ButtonStyle.Info" Icon="info" Class="m-1" Click=@(() => OpenSportGoodInfo(customerSportGood.SportGoodId))></RadzenButton>
+							</Template>
+						</RadzenDataGridColumn>
+					</Columns>
+				</RadzenDataGrid>
+			</RadzenCard>
+		</div>
+		<div class="col-lg-1"></div>
+	</div>
+</div>

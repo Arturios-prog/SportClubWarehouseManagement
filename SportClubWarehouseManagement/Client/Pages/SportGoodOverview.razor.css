@@ -1,0 +1,42 @@
+﻿#margin-background {
+    padding-top: 70px;
+    background-color: #2F55D4
+}
+
+.background-meteor {
+    /*background: rgb(47,85,212);
+    background: linear-gradient(164deg, rgba(47,85,212,1) 0%, rgba(128,128,181,0) 100%, rgba(255,255,255,1) 100%);*/
+    background-image: url(images/Trianglify.png);
+}
+
+.m-1 {
+    max-width: 100px;
+    width: inherit;
+}
+
+.width-100 {
+    width: 100px;
+}
+
+.margin-bottom-100 {
+    margin-bottom: 100px !important;
+}
+
+.margin-top-50 {
+    margin-top: 50px !important;
+}
+
+.padding-container {
+    padding-top: 50px !important;
+    padding-bottom: 250px !important;
+}
+
+.add-btn {
+    position: sticky;
+    top: 180px;
+    width: 100px;
+    height: 100px;
+    border-radius: 30px;
+    border-color: white;
+    border-width: 2px;
+}

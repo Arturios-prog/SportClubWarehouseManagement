@@ -1,0 +1,167 @@
+﻿<RadzenTemplateForm Data="@Customer" OnInvalidSubmit="@(() => {HandleInvalidSubmit();})"
+					Submit="@((Customer args) =>  HandleValidSubmit())">
+	<div class="row">
+		<div class="col-md-6">
+			<RadzenFieldset Text="Main Information">
+
+				<div class="row">
+					<div class="col-md-4 align-items-center d-flex">
+						<RadzenLabel Text="First Name" />
+					</div>
+					<div class="col-md-8">
+						<RadzenTextBox style="width: 100%;" Name="FirstName" @bind-Value="Customer.FirstName" />
+						<RadzenRequiredValidator Component="FirstName" Text="First name is required" Popup=false Style="position: static" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 align-items-center d-flex">
+						<RadzenLabel Text="Second Name" />
+					</div>
+					<div class="col-md-8">
+						<RadzenTextBox style="width: 100%;" Name="SecondName" @bind-Value="Customer.SecondName" />
+						<RadzenRequiredValidator Component="SecondName" Text="Second name is required" Popup=false Style="position: static" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 align-items-center d-flex">
+						<RadzenLabel Text="Gender" />
+					</div>
+					<div class="col-md-8">
+						<RadzenDropDown @ref="dropDownGender" @bind-Value="Customer.Gender" ValueProperty="EnumValue" TextProperty="GenderName"
+										Data="@GenderTypes" AllowClear="false" Placeholder="Select Gender" Name="Gender" style="width: 100%;">
+						</RadzenDropDown>
+						<RadzenRequiredValidator Component="Gender" Text="Gender is required" Popup=false Style="position: static" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 align-items-center d-flex">
+						<RadzenLabel Text="Age" />
+					</div>
+					<div class="col-md-8">
+						<RadzenNumeric Placeholder="30" @bind-Value="Customer.Age" style="width: 100%;" Name="Age" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 align-items-center d-flex">
+						<RadzenLabel Text="Subscribe Status" />
+					</div>
+					<div class="col-md-8">
+						<RadzenDropDown  @ref="dropDownStatus" @bind-Value="Customer.SubscribeStatus" Name="Subscribe" AllowClear="false" Placeholder="Select Subscribe"
+										TextProperty="SubscribeName" ValueProperty="EnumValue" Data="@SubscribeTypes" style="width: 100%;">
+						</RadzenDropDown>
+						<RadzenRequiredValidator Component="Subscribe" Text="Subscribe status is required" Popup=false Style="position: static" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 align-items-center d-flex">
+						<RadzenLabel Text="Email" />
+					</div>
+					<div class="col-md-8">
+						<RadzenTextBox Style="width: 100%; display: block;" Name="Email" @bind-Value="Customer.Email" />
+						<RadzenRequiredValidator Component="Email" Text="Email is required" Popup=false Style="position: static;"></RadzenRequiredValidator>
+						<RadzenEmailValidator Component="Email" Text="Provide a valid email address" Popup=false Style="position: static;"></RadzenEmailValidator>
+					</div>
+				</div>
+			</RadzenFieldset>
+
+			<div class="row"></div>
+			<RadzenFieldset Text="Additional Information">
+				<div class="row">
+					<div class="col-md-4 align-items-center d-flex">
+						<RadzenLabel Text="Registration Date" />
+					</div>
+					<div class="col-md-8">
+						<RadzenDatePicker style="width: 100%;" Name="Registration Date" @bind-Value="Customer.RegistrationDate" />
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4 align-items-center d-flex">
+						<RadzenLabel Text="Address" />
+					</div>
+					<div class="col-md-8">
+						<RadzenTextBox style="width: 100%;" Name="Address" @bind-Value="Customer.Address" />
+
+					</div>
+				</div>
+			</RadzenFieldset>
+		</div>
+		<div class="col-md-6">
+			<RadzenDataGrid @ref="csgGrid" AllowPaging="true" PageSize="5" AllowSorting="true" EditMode="DataGridEditMode.Single"
+							Data="@Customer.CustomerSportGoods" TItem="CustomerSportGood" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow" RowEdit="@OnEditRow">
+				<Columns>
+					<RadzenDataGridColumn TItem="CustomerSportGood" Property="SportGoodName" Filterable="true" Title="Sport Good's Name" TextAlign="TextAlign.Center">
+						<EditTemplate Context="customerSportGood">
+
+							<RadzenDropDown Change="@(args => SetCsgId(customerSportGood))" @bind-Value="customerSportGood.SportGoodName" Name="SportGoodName" Data="@SportGoodNamesToPick" Style="width:100%; display: block;" />
+							<RadzenRequiredValidator Text="Sport Good Name is required" Component="SportGoodName" Popup="false" Style="position: static;" />
+
+						</EditTemplate>
+					</RadzenDataGridColumn>
+					<RadzenDataGridColumn TItem="CustomerSportGood" Property="Quantity" Filterable="true" Title="Quantity" TextAlign="TextAlign.Center">
+						<EditTemplate Context="customerSportGood">
+
+							@if (Customer.SubscribeStatus.Equals(SubscribeStatus.SubscribeGeneral))
+							{
+								<RadzenNumeric @bind-Value="customerSportGood.Quantity" Name="Quantity" Style="width:100%" Min=0 Max=1></RadzenNumeric>
+							}
+							else
+							{
+								@if (customerSportGood.SportGoodId == 0){
+									<RadzenNumeric @ref="plusNumeric" @bind-Value="customerSportGood.Quantity" Name="Quantity" Style="width:100%" Min=0 Disabled=true></RadzenNumeric>
+								}
+								else
+								{
+									<RadzenNumeric @ref="plusNumeric" @bind-Value="customerSportGood.Quantity" Name="Quantity" Style="width:100%" Min=0 Max=@(MaxQuantities[customerSportGood.SportGoodId])></RadzenNumeric>
+								}
+								
+							}
+							<RadzenRequiredValidator Text="Quantity is required" Component="Quantity" Popup="false" Style="position: static;" />
+
+
+						</EditTemplate>
+					</RadzenDataGridColumn>
+					<RadzenDataGridColumn TItem="CustomerSportGood" Context="sampleBlazorModelsSampleOrder" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="120px">
+						<Template Context="customerSportGood">
+							<RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@(args => EditRow(customerSportGood))" @onclick:stopPropagation="true">
+							</RadzenButton>
+						</Template>
+						<EditTemplate Context="customerSportGood">
+							<RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(customerSportGood))">
+							</RadzenButton>
+							<RadzenButton Icon="close" ButtonStyle="ButtonStyle.Light" Class="m-1" Click="@((args) => CancelEdit(customerSportGood))">
+							</RadzenButton>
+						</EditTemplate>
+					</RadzenDataGridColumn>
+					<RadzenDataGridColumn TItem="CustomerSportGood" Context="customerSportGood" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="60px">
+						<Template Context="customerSportGood">
+							<RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Small" Class="m-1" Click="@(args => DeleteRow(customerSportGood))" @onclick:stopPropagation="true">
+							</RadzenButton>
+						</Template>
+						<EditTemplate Context="customerSportGood">
+							<RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Small" Class="m-1" Click="@(args => DeleteRow(customerSportGood))">
+							</RadzenButton>
+						</EditTemplate>
+					</RadzenDataGridColumn>
+				</Columns>
+
+			</RadzenDataGrid>
+			@if (SportGoodNamesToPick.Count != 0 && SportGoods.Where(sg => sg.Quantity > 0).FirstOrDefault() != null)
+			{
+				<RadzenButton Icon="add_circle_outline" style="margin-top: 10px" Text="Add New Sport Good" Click="@InsertRow" Disabled=@(csgToInsert != null) />
+			}
+			else
+			{
+				<RadzenLabel style="margin-top: 10px;" Text="There aren't any Sport Goods to add"></RadzenLabel>
+			}
+
+
+		</div>
+	</div>
+	<div class="row justify-content-center">
+		<div class="col-md-12 d-flex align-items-end justify-content-center" style="margin-top: 16px;">
+			<RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="Save" />
+			<RadzenButton ButtonStyle="ButtonStyle.Secondary" Icon="cancel" style="display: inline-block; margin-left: 10px;" Text="Cancel" Click="() => Close()" />
+		</div>
+	</div>
+</RadzenTemplateForm>
