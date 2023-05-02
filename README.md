@@ -29,7 +29,6 @@ You will also need to start both projects at the same time for client applicatio
 
 ## Problems and flaws
 - I haven't figured out a way to reload the DataGrid on Dialog's window closing.
-- Authentication and authorization are not yet added.
 - The subscribe functionality is not yet fully implemented.
 - This project is not yet published on Web and it can only start in a debug mode localy.
 - Testing library is not yet implemented.
