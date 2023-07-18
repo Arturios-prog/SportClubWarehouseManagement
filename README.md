@@ -1,6 +1,4 @@
-﻿# Welcome to a Sport Club Warehouse Management System!
-The aim of this project is to demonstrate my skills as a beginner developer.    
-This project may not contain every aspect of my knowledge, but I hope that everything that is present here will satisfy a potential Employer enough.    
+﻿# Welcome to a Sport Club Warehouse Management System!   
 
 ## Functionality
 This project modulates a situation where a sport club requires a system for managing clients and sport goods. This system is made for employees only.    
@@ -19,18 +17,13 @@ Entities are connected with a many-to-many connection.
 The interaction between front-end and back-end is happening via RESTful API which can also be inspected with Swagger UI.    
 ![swagger](https://user-images.githubusercontent.com/65115651/168612969-908d7893-9780-4b3e-8767-dc2c2c07f09e.JPG)
 
-Front-end is made using RadzenBlazor framework and client application is a webassembly project.    
+Front-end is made using RadzenBlazor UI framework powered by webassembly.    
 The target platform is .NET 6.0    
 
 ## Startup
-Since this project is not published, it is required to localy configure it's startup.    
-It is most likely that you will have to provide an sql connection string in your appsettings.json file.   
-You will also need to start both projects at the same time for client application to work.
-
+Since this project is not published, it is required to localy configure it's startup.
 ## Problems and flaws
-- I haven't figured out a way to reload the DataGrid on Dialog's window closing.
 - The subscribe functionality is not yet fully implemented.
-- This project is not yet published on Web and it can only start in a debug mode localy.
 - Testing library is not yet implemented.
 - application UI may display incorrectly in some parts
 
